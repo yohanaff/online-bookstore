@@ -1,5 +1,6 @@
 package com.github.yohanaff.catalog.service;
 
+import com.github.yohanaff.catalog.dto.BookDTO;
 import com.github.yohanaff.catalog.model.Book;
 import com.github.yohanaff.catalog.model.Category;
 import com.github.yohanaff.catalog.repository.BookRepository;
@@ -57,7 +58,7 @@ class BookServiceTest {
     void shouldFindBookByTitle() {
         when(bookRepository.findByTitle("The Great Gatsby")).thenReturn(Arrays.asList(book1, book2));
 
-        List<Book> books = bookService.findBooksByTitle("The Great Gatsby");
+        List<BookDTO> books = bookService.findBooksByTitle("The Great Gatsby");
 
         assertEquals(2, books.size());
         assertEquals("The Great Gatsby", books.get(0).getTitle());

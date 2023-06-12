@@ -1,36 +1,25 @@
-package com.github.yohanaff.catalog.model;
+package com.github.yohanaff.catalog.dto;
 
-import jakarta.persistence.*;
+import com.github.yohanaff.catalog.model.Category;
 
-import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
-@Entity
-@Table(name = "book")
-public class Book {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class BookDTO {
     private Long id;
     private String title;
     private String author;
     private String isbn;
     private BigDecimal price;
     private Integer publicationYear;
-
-    @NotNull(message = "Category is required")
-    @Enumerated(EnumType.STRING)
     private Category category;
+    private Integer quantity;
 
-    public Book() {
-
+    public Long getId() {
+        return id;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public String getTitle() {
@@ -65,14 +54,6 @@ public class Book {
         this.price = price;
     }
 
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
     public Integer getPublicationYear() {
         return publicationYear;
     }
@@ -81,13 +62,19 @@ public class Book {
         this.publicationYear = publicationYear;
     }
 
-    public Book(String title, String author, String isbn, BigDecimal price, Integer publicationYear, Category category) {
-        this.title = title;
-        this.author = author;
-        this.isbn = isbn;
-        this.price = price;
-        this.publicationYear = publicationYear;
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
         this.category = category;
     }
 
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
 }

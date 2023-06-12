@@ -1,48 +1,51 @@
 package com.github.yohanaff.catalog.service;
 
+import com.github.yohanaff.catalog.dto.BookDTO;
 import com.github.yohanaff.catalog.model.Book;
 import com.github.yohanaff.catalog.repository.BookRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class BookService {
 
     private final BookRepository bookRepository;
+    private final InventoryCache inventoryCache;
 
-    @Autowired
-    public BookService(BookRepository bookRepository) {
-
+    public BookService(BookRepository bookRepository, InventoryCache inventoryCache) {
         this.bookRepository = bookRepository;
+        this.inventoryCache = inventoryCache;
+    }
+
+    public Book getBookById(Long bookId) {
+        return bookRepository.findById(bookId).orElse(null);
     }
 
     public List<Book> findAllBooks(Pageable pageable) {
         return bookRepository.findAll(pageable).getContent();
     }
 
-    public Optional<Book> findBookById(Long id) {
-        return bookRepository.findById(id);
-    }
-
-    public List<Book> findBooksByTitle(String title) {
-
-        return bookRepository.findByTitle(title);
-    }
-
-    public List<Book> findBooksByAuthor(String author) {
-
-        return bookRepository.findByAuthor(author);
-    }
-
-    public Book saveBook(Book book) {
+    public Book saveBook(BookDTO bookDto) {
+        Book book = toBook(bookDto);
         return bookRepository.save(book);
     }
 
     public void deleteBook(Long id) {
         bookRepository.deleteById(id);
     }
+
+    private Book toBook(BookDTO dto) {
+        Book book = new Book();
+        book.setId(dto.getId());
+        book.setTitle(dto.getTitle());
+        book.setAuthor(dto.getAuthor());
+        book.setIsbn(dto.getIsbn());
+        book.setPrice(dto.getPrice());
+        book.setPublicationYear(dto.getPublicationYear());
+        book.setCategory(dto.getCategory());
+        return book;
+    }
 }
+
