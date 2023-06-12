@@ -1,8 +1,6 @@
 DROP TABLE IF EXISTS book;
 DROP TABLE IF EXISTS category;
 
-CREATE DATABASE IF NOT EXISTS catalog_service;
-
 USE catalog_service;
 
 CREATE TABLE IF NOT EXISTS book
